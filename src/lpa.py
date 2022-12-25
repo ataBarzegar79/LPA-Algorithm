@@ -38,3 +38,6 @@ class Lpa:
             if maximum_label_among_neighbours != node_current_label:
                 return False
         return True
+
+    def get_graph_as_graphical(self):
+        self.graph.draw_graph()

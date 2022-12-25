@@ -1,5 +1,6 @@
 import networkx as nx
 import random
+import matplotlib.pyplot as plt
 
 
 # noinspection PyMethodMayBeStatic
@@ -45,3 +46,9 @@ class Graph:
 
     def get_node_current_label(self, node):
         return self.graph.nodes.data()[node]['label']
+
+    def draw_graph(self):  # copied from GitHub !
+        node_color = [float(self.graph.nodes.data()[node]['label']) for node in self.graph]
+        labels = dict([(node, node) for node, data in self.graph.nodes.data()])
+        nx.draw_networkx(self.graph, node_color=node_color)
+        plt.show()
