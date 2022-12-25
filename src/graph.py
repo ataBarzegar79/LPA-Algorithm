@@ -49,6 +49,6 @@ class Graph:
 
     def draw_graph(self):  # copied from GitHub !
         node_color = [float(self.graph.nodes.data()[node]['label']) for node in self.graph]
-        labels = dict([(node, node) for node, data in self.graph.nodes.data()])
+        # labels = dict([(node, node) for node, data in self.graph.nodes.data()])
         nx.draw_networkx(self.graph, node_color=node_color)
         plt.show()
