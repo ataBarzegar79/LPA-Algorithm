@@ -1,4 +1,5 @@
 import networkx as nx
+import random
 
 
 # noinspection PyMethodMayBeStatic
@@ -6,14 +7,41 @@ import networkx as nx
 # graph class is just a wrapper !
 class Graph:
 
-    def __init__(self):
+    def __init__(self, graph_file_path):
         self.graph = None
+        self.graph_file_path = graph_file_path
+        self.read_graph_from_path()
 
-    def read_graph_from_path(self, path):
-        self.graph = nx.read_edgelist(path, data=(('weight', float),))
+    def read_graph_from_path(self):
+        self.graph = nx.read_edgelist(self.graph_file_path, data=(('weight', float),))
         return self.graph
 
-    def initialize_label_for_nodes(self):  # O(n)
-        for node, node_data in self.graph.nodes.data():
-            node_data['label'] = node
+    def get_nodes_and_data(self):
+        return self.graph.nodes.data()
 
+    def get_node_neighbours(self, node):
+        return list(self.graph.adj[node])
+
+    def get_maximum_label_among_nodes(self, nodes):
+        labels_count = dict()
+        for node in nodes:
+            node_label = self.graph.nodes[node]['label']
+            labels_count = self.add_label_count(labels_count, node_label)
+        label_with_maximum_count = [
+            key for m in [max(labels_count.values())] for key, val in labels_count.items() if val == m
+        ]
+        return random.choice(label_with_maximum_count)
+
+    def add_label_count(self, labels_count, label):
+        if label not in labels_count:
+            labels_count[label] = 0
+            return labels_count
+        else:
+            labels_count[label] += 1
+            return labels_count
+
+    def set_label_to_node(self, label, node):
+        self.graph.nodes.data()[node]['label'] = label
+
+    def get_node_current_label(self, node):
+        return self.graph.nodes.data()[node]['label']
