@@ -13,7 +13,7 @@ class Graph:
         self.graph = nx.read_edgelist(path, data=(('weight', float),))
         return self.graph
 
-    def initialize_label_for_nodes(self):
-        for node in self.graph:
-            node['label'] = node
+    def initialize_label_for_nodes(self):  # O(n)
+        for node, node_data in self.graph.nodes.data():
+            node_data['label'] = node
 
